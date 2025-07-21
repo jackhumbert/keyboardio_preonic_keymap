@@ -24,17 +24,17 @@
 #endif
 
 #include "Kaleidoscope.h"
-#include "Kaleidoscope-EEPROM-Settings.h"
-#include "Kaleidoscope-EEPROM-Keymap.h"
-#include "Kaleidoscope-Escape-OneShot.h"
+// #include "Kaleidoscope-EEPROM-Settings.h"
+// #include "Kaleidoscope-EEPROM-Keymap.h"
+// #include "Kaleidoscope-Escape-OneShot.h"
 #include "Kaleidoscope-FirmwareVersion.h"
 #include "Kaleidoscope-FocusSerial.h"
 #include "Kaleidoscope-Macros.h"
 #include "Kaleidoscope-MouseKeys.h"
-#include "Kaleidoscope-OneShot.h"
-#include "Kaleidoscope-Qukeys.h"
-#include "Kaleidoscope-SpaceCadet.h"
-#include "Kaleidoscope-DynamicMacros.h"
+// #include "Kaleidoscope-OneShot.h"
+// #include "Kaleidoscope-Qukeys.h"
+// #include "Kaleidoscope-SpaceCadet.h"
+// #include "Kaleidoscope-DynamicMacros.h"
 #include "Kaleidoscope-LayerNames.h"
 #include "Kaleidoscope-HostPowerManagement.h"
 #include "Kaleidoscope-LEDControl.h"
@@ -74,6 +74,7 @@
   */
 
 enum {
+  MACRO_SHIFT,
   MACRO_VERSION_INFO,
   MACRO_ANY,
   MACRO_TOGGLE_MODE,
@@ -107,47 +108,121 @@ USE_MAGIC_COMBOS(
 #define Key_Plus LSHIFT(Key_Equals)
 
 enum {
-  QWERTY,
+  BASE,
+  SSHIFT,
   LOWER,
   RAISE,
+  NAV,
   FUN
 };
 
+#define Key_LC Key_LeftControl
+#define Key_LS Key_LeftShift
+#define Key_LA Key_LeftAlt
+#define Key_LG Key_LeftGui
+#define Key_RC Key_RightControl
+#define Key_RS Key_RightShift
+#define Key_RA Key_RightAlt
+#define Key_RG Key_RightGui
+#define Key_Cm Key_Comma
+#define Key_Sc Key_Semicolon
+#define Key_Pr Key_Period
+#define Key_Sl Key_Slash
+#define Key_Bp Key_Backspace
+#define Key_Sp Key_Space
+#define Key_Bt Key_Backtick
+#define Key_Es Key_Escape
+#define ____ Key_Transparent
+#define _____ Key_Transparent
+#define ______ Key_Transparent
+#define _______ Key_Transparent
+
+#define SHF(n) LSHIFT(Key_ ## n)
+
 // clang-format off
 KEYMAPS(
-  [QWERTY] = KEYMAP
+  [BASE] = KEYMAP
   (
-    Consumer_VolumeDecrement, Consumer_VolumeIncrement, M(MACRO_ANY), ShiftToLayer(FUN),                 Consumer_PlaySlashPause,
-    Key_Backtick,   Key_1,           Key_2,           Key_3,                   Key_4,           Key_5,           Key_6,           Key_7,           Key_8,                      Key_9,           Key_0,           Key_Minus,
-    Key_Tab,        Key_Q,           Key_W,           Key_E,                   Key_R,           Key_T,           Key_Y,           Key_U,           Key_I,                      Key_O,           Key_P,           Key_Backspace,
-    Key_Escape,     Key_A,           Key_S,           Key_D,                   Key_F,           Key_G,           Key_H,           Key_J,           Key_K,                      Key_L,           Key_Semicolon,   Key_Quote,
-    Key_LeftShift,  Key_Z,           Key_X,           Key_C,                   Key_V,           Key_B,           Key_N,           Key_M,           Key_Comma,                  Key_Period,      Key_Slash,       Key_Enter,
-    Key_Hyper,      Key_LeftControl, Key_LeftAlt,     Key_LeftGui,            ShiftToLayer(LOWER),       Key_Backspace,   Key_Space,       ShiftToLayer(RAISE),       Key_LeftArrow,             Key_DownArrow,   Key_UpArrow,     Key_RightArrow
+    Consumer_VolumeDecrement, Consumer_VolumeIncrement, 
+    M(MACRO_ANY), ShiftToLayer(FUN),                 
+    Consumer_PlaySlashPause,
+
+    Key_Bt,    Key_1,  Key_2,  Key_3,  Key_4,  Key_5,  Key_6,  Key_7,  Key_8,  Key_9,  Key_0,  Key_Minus,
+    Key_Tab,   Key_Q,  Key_W,  Key_F,  Key_P,  Key_G,  Key_J,  Key_L,  Key_U,  Key_Y,  Key_Sc, Key_Bp,
+    Key_Minus, Key_A,  Key_R,  Key_S,  Key_T,  Key_D,  Key_H,  Key_N,  Key_E,  Key_I,  Key_O,  Key_Quote,
+    Key_Es,    Key_Z,  Key_X,  Key_C,  Key_V,  Key_B,  Key_K,  Key_M,  Key_Cm, Key_Pr, Key_Sl, Key_Enter,
+    Key_RS,    Key_LG, Key_LA, Key_LC, ShiftToLayer(LOWER),  
+                                               M(MACRO_SHIFT), 
+                                                       Key_Sp, ShiftToLayer(RAISE),       
+                                                                       ShiftToLayer(NAV), Key_DownArrow, Key_UpArrow, Key_RightArrow
+  ),
+
+  [SSHIFT] = KEYMAP
+  (
+    Consumer_VolumeDecrement, Consumer_VolumeIncrement, 
+    M(MACRO_ANY), ShiftToLayer(FUN),                 
+    Consumer_PlaySlashPause,
+
+    Key_Bt,    Key_1,  Key_2,  Key_3,  Key_4,  Key_5,  Key_6,  Key_7,  Key_8,  Key_9,  Key_0,  Key_Minus,
+    Key_Tab,   Key_Q,  Key_W,  Key_F,  Key_P,  Key_G,  Key_J,  Key_L,  Key_U,  Key_Y,  Key_Sc, Key_Bp,
+    Key_Minus, Key_A,  Key_R,  Key_S,  Key_T,  Key_D,  Key_H,  Key_N,  Key_E,  Key_I,  Key_O,  Key_Quote,
+    Key_Es,    Key_Z,  Key_X,  Key_C,  Key_V,  Key_B,  Key_K,  Key_M,  Key_1,  Key_2,  Key_Sl, Key_Enter,
+    Key_RS,    ______, ______, ______, ShiftToLayer(LOWER),  
+                                               ______, ______, ShiftToLayer(RAISE),       
+                                                                       ______, ______, ______, ______
   ),
 
   [LOWER] = KEYMAP
   (
-   ___, ___,  ___,            ___,             ___,
-    ___,            ___,             ___,             ___,             ___,             ___,             ___,             ___,             Key_Slash,      Key_Star,        Key_Minus,       Key_Equals,
-    ___,            ___,             ___,             ___,             ___,             ___,             ___,             Key_7,           Key_8,          Key_9,           Key_Minus,       ___,
-    ___,            ___,             ___,             ___,             ___,             ___,             ___,             Key_4,           Key_5,          Key_6,           Key_Plus,        ___,
-    ___,            ___,             ___,             ___,             ___,             ___,             ___,             Key_1,           Key_2,          Key_3,           Key_Plus,        ___,
-    ___,            ___,             ___,             ___,             ___,             ___,             Key_Backspace,   Key_0,           Key_Period,     ___,             Key_Enter,       ___
+    Consumer_VolumeDecrement, Consumer_VolumeIncrement, 
+    M(MACRO_ANY), ShiftToLayer(FUN),                 
+    Consumer_PlaySlashPause,
+
+    ______,  ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______,
+    ______,  ______, Key_7,  Key_8,  Key_9,  ______, ______, ______, ______, ______, ______, ______,
+    ______,  ______, Key_4,  Key_5,  Key_6,  ______, ______, ______, ______, ______, ______, ______,
+    ______,  Key_0,  Key_1,  Key_2,  Key_3,  ______, ______, ______, ______, ______, ______, ______,
+    ______,  ______, ______, ______, ShiftToLayer(LOWER),  
+                                             ______, ______, ShiftToLayer(RAISE),       
+                                                                     ______, ______, ______, ______
   ),
 
   [RAISE] = KEYMAP
   (
-      ___, ___,  ___,            ___,             ___,
-    Key_Escape,     Key_F1,          Key_F2,          Key_F3,                 Key_F4,          Key_F5,          Key_F6,          Key_F7,          Key_F8,                     Key_F9,          Key_F10,         Key_Backspace,
-    Key_Backtick,   ___,             Key_mouseUp,     ___,                    Key_mouseWarpNW, Key_mouseWarpNE, Key_Backslash,   LSHIFT(Key_LeftBracket), LSHIFT(Key_RightBracket), Key_LeftBracket, Key_RightBracket, Key_Delete,
-    Key_CapsLock,   Key_mouseL,      Key_mouseDn,     Key_mouseR,             Key_mouseWarpSW, Key_mouseWarpSE, Key_LeftArrow,   Key_DownArrow,   Key_UpArrow,                Key_RightArrow,  ___,             ___,
-    ___,            Key_mouseBtnL,   Key_mouseBtnM,   Key_mouseBtnR,          ___,             Key_mouseWarpEnd,___,             ___,             ___,                        ___,             ___,             ___,
-    ___,            ___,             Key_RightAlt,    ___,                    ___,             ___,             ___,             ___,             ___,                        ___,             ___,             ___
+    Consumer_VolumeDecrement, Consumer_VolumeIncrement, 
+    M(MACRO_ANY), ShiftToLayer(FUN),                 
+    Consumer_PlaySlashPause,
+
+    ______,  ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______,
+    ______,  ______, Key_7,  Key_8,  Key_9,  ______, ______, ______, ______, ______, ______, ______,
+    ______,  ______, Key_4,  Key_5,  Key_6,  ______, ______, ______, ______, ______, ______, ______,
+    ______,  Key_0,  Key_1,  Key_2,  Key_3,  ______, ______, ______, ______, ______, ______, ______,
+    ______,  ______, ______, ______, ShiftToLayer(LOWER),  
+                                             ______, ______, ShiftToLayer(RAISE),       
+                                                                     ______, ______, ______, ______
+  ),
+
+  [NAV] = KEYMAP
+  (
+    Consumer_VolumeDecrement, Consumer_VolumeIncrement, 
+    M(MACRO_ANY), ShiftToLayer(FUN),                 
+    Consumer_PlaySlashPause,
+
+    Key_Bt,    Key_1,  Key_2,  Key_3,  Key_4,  Key_5,  Key_6,  Key_7,  Key_8,  Key_9,  Key_0,  Key_Minus,
+    Key_Tab,   Key_Q,  Key_W,  Key_F,  Key_P,  Key_G,  Key_J,  Key_L,  Key_U,  Key_Y,  Key_Sc, Key_Bp,
+    Key_Minus, Key_A,  Key_R,  Key_S,  Key_T,  Key_D,  Key_H,  Key_N,  Key_E,  Key_I,  Key_O,  Key_Quote,
+    Key_E,     Key_Z,  Key_X,  Key_C,  Key_V,  Key_B,  Key_K,  Key_M,  Key_1,  Key_2,  Key_Sl, Key_Enter,
+    Key_RS,    ______, ______, ______, _____,  
+                                               ______, ______, ShiftToLayer(RAISE),       
+                                                                       ______, ______, ______, ______
   ),
 
   [FUN] = KEYMAP
   (
-       ___, ___, ___,            ___,             ___,
+    ___, ___, 
+    ___, ___,
+    ___,
+    
     Key_BLEOff, Key_BLESelectDevice1, Key_BLESelectDevice2, Key_BLESelectDevice3, Key_BLESelectDevice4, Key_BLEStartPairing, ___, ___, ___, ___, ___, M(MACRO_VERSION_INFO),
     Key_LEDEffectNext,___,           Consumer_VolumeIncrement,___,            ___,             ___,             ___,             ___,             ___,                        ___,             ___,             ___,
     ___,            Consumer_ScanPreviousTrack,Consumer_VolumeDecrement,Consumer_ScanNextTrack,___,             ___,             ___,             ___,             ___,                        ___,             ___,             ___,
@@ -212,6 +287,35 @@ COLORMAPS(
     [8] = COLORMAP (BLACK,  BLACK, BLACK, BLACK)  
 )
 
+namespace kaleidoscope {
+namespace plugin {
+
+
+// When activated, this plugin will suppress any `Shift` key (including modifier
+// combos with `Shift`) before it's added to the HID report.
+class Shifter : public Plugin {
+
+ public:
+  EventHandlerResult onAddToReport(Key key) {
+    if (active_ && !key.isKeyboardShift())
+      key.setFlags(SHIFT_HELD);
+    return EventHandlerResult::OK;
+  }
+
+  void enable() {
+    active_ = true;
+  }
+  void disable() {
+    active_ = false;
+  }
+
+ private:
+  bool active_{false};
+};
+}  // namespace plugin
+}  // namespace kaleidoscope
+
+kaleidoscope::plugin::Shifter Shifter;
 
 // clang-format on
 
@@ -251,26 +355,26 @@ KALEIDOSCOPE_INIT_PLUGINS(
   // The Qukeys plugin enables the "Secondary action" functionality in
   // Chrysalis. Keys with secondary actions will have their primary action
   // performed when tapped, but the secondary action when held.
-  Qukeys,
+  // Qukeys,
 
   // SpaceCadet can turn your shifts into parens on tap, while keeping them as
   // Shifts when held. SpaceCadetConfig lets Chrysalis configure some aspects of
   // the plugin.
-  SpaceCadet,
-  SpaceCadetConfig,
+  // SpaceCadet,
+  // SpaceCadetConfig,
 
   // Enables the "Sticky" behavior for modifiers, and the "Layer shift when
   // held" functionality for layer keys.
-  OneShot,
-  OneShotConfig,
-  EscapeOneShot,
-  EscapeOneShotConfig,
+  // OneShot,
+  // OneShotConfig,
+  // EscapeOneShot,
+  // EscapeOneShotConfig,
 
   // The macros plugin adds support for macros
   Macros,
 
   // Enables dynamic, Chrysalis-editable macros.
-  DynamicMacros,
+  // DynamicMacros,
 
   // The MouseKeys plugin lets you add keys to your keymap which move the mouse.
   MouseKeys,
@@ -308,7 +412,8 @@ KALEIDOSCOPE_INIT_PLUGINS(
   Keyclick,
   // LEDIndicators shows device status indicators using the LEDs
   // It should be listed after all other LED plugins
-  LEDIndicators);
+  LEDIndicators,
+  Shifter);
 
 
 void configureIndicators() {
@@ -469,8 +574,18 @@ static void batteryLevelMacro(uint8_t key_state) {
   }
 }
 
+
 const macro_t *macroAction(uint8_t macro_id, KeyEvent &event) {
   switch (macro_id) {
+  case MACRO_SHIFT: {
+    if (keyToggledOn(event.state)) {
+      Shifter.enable();
+      Layer.move(SSHIFT);
+    } else if (keyToggledOff(event.state)) {
+      Shifter.disable();
+      Layer.move(BASE);
+    }
+  } break;
   case MACRO_VERSION_INFO:
     versionInfoMacro(event.state);
     break;
@@ -533,19 +648,19 @@ void setup() {
   PreonicColormapEffect.max_layers(9);
   LEDRainbowEffect.brightness(25);
 
-  DynamicMacros.reserve_storage(512);
+  // DynamicMacros.reserve_storage(512);
 
   LayerNames.reserve_storage(128);
 
   // Disable Keyclick by default
   Keyclick.disable();
 
-  Layer.move(EEPROMSettings.default_layer());
+  // Layer.move(EEPROMSettings.default_layer());
 
   // To avoid any surprises, SpaceCadet is turned off by default. However, it
   // can be permanently enabled via Chrysalis, so we should only disable it if
   // no configuration exists.
-  SpaceCadetConfig.disableSpaceCadetIfUnconfigured();
+  // SpaceCadetConfig.disableSpaceCadetIfUnconfigured();
 
   //  DefaultLEDModeConfig.activateLEDModeIfUnconfigured(&LEDRainbowEffect);
 
