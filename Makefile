@@ -2,10 +2,12 @@
 # required to build the example
 
 
-
+export KALEIDOSCOPE_LOCAL_LIB_DIR := $(CURDIR)
 
 ifneq ($(KALEIDOSCOPE_DIR),)
 search_path += $(KALEIDOSCOPE_DIR)
+else
+search_path += $(CURDIR)/../Kaleidoscope
 endif
 
 ifneq ($(ARDUINO_DIRECTORIES_USER),)
