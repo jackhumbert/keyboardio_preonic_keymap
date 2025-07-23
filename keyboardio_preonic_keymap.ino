@@ -26,6 +26,9 @@
 
 #include "Kaleidoscope.h"
 
+#include "Kaleidoscope-SonicThemes.h"
+#include "Kaleidoscope-Shifter.h"
+
 #include "Kaleidoscope-FocusSerial.h"
 #include "Kaleidoscope-Macros.h"
 #include "Kaleidoscope-MouseKeys.h"
@@ -131,10 +134,16 @@ KEYMAPS(
     ___, ___, 
     ___, ___, ___,
 
-    SH(Bt), SH(1),  SH(2),  SH(3),  SH(4),  SH(5),  SH(6),  SH(7),  SH(8),  SH(9),  SH(0),  SH(Mn),
-    SH(Tab),SH(Q),  SH(W),  SH(F),  SH(P),  SH(G),  SH(J),  SH(L),  SH(U),  SH(Y),  SH(Sc), SH(Bp),
-    SH(Mn), SH(A),  SH(R),  SH(S),  SH(T),  SH(D),  SH(H),  SH(N),  SH(E),  SH(I),  SH(O),  Key_Bt,
-    SH(Es), SH(Z),  SH(X),  SH(C),  SH(V),  SH(B),  SH(K),  SH(M),  SH(1),  SH(2),  SH(Sl), SH(Enter),
+    // SH(Bt), SH(1),  SH(2),  SH(3),  SH(4),  SH(5),  SH(6),  SH(7),  SH(8),  SH(9),  SH(0),  SH(Mn),
+    // SH(Tab),SH(Q),  SH(W),  SH(F),  SH(P),  SH(G),  SH(J),  SH(L),  SH(U),  SH(Y),  SH(Sc), SH(Bp),
+    // SH(Mn), SH(A),  SH(R),  SH(S),  SH(T),  SH(D),  SH(H),  SH(N),  SH(E),  SH(I),  SH(O),  Key_Bt,
+    // SH(Es), SH(Z),  SH(X),  SH(C),  SH(V),  SH(B),  SH(K),  SH(M),  SH(1),  SH(2),  SH(Sl), SH(Enter),
+    // ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______
+
+    ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______,
+    ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______,
+    ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, Key_Bt,
+    ______, ______, ______, ______, ______, ______, ______, ______, SH(1),  SH(2),  ______, ______,
     ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______
   ),
 
@@ -142,13 +151,23 @@ KEYMAPS(
     ___, ___, 
     ___, ___, ___,
 
-    // ______, ______, Key_A,  Key_B,  Key_C,  ______, ______, ______, ______, ______, ______, ______,
+    // ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______,
     // Key_Bp, ______, Key_7,  Key_8,  Key_9,  ______, ______, Key_F9, Key_F10,Key_F11,Key_F12,______,
     // Key_De, ______, Key_4,  Key_5,  Key_6,  ______, ______, Key_F5, Key_F6, Key_F7, Key_F8, ______,
     // ______, Key_0,  Key_1,  Key_2,  Key_3,  ______, ______, Key_F1, Key_F2, Key_F3, Key_F4, ______,
-    ______, Key_C,  Key_D,  Key_E,  Key_F,  ______, ______, Key_F13,Key_F14,Key_F15,Key_F16,______,
-    Key_Bp, Key_8,  Key_9,  Key_A,  Key_B,  ______, ______, Key_F9, Key_F10,Key_F11,Key_F12,______,
-    Key_De, Key_4,  Key_5,  Key_6,  Key_7,  ______, ______, Key_F5, Key_F6, Key_F7, Key_F8, ______,
+    // ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______
+    
+    // hexadecimal numpad could be kinda cool
+    // ______, Key_C,  Key_D,  Key_E,  Key_F,  ______, ______, Key_F13,Key_F14,Key_F15,Key_F16,______,
+    // Key_Bp, Key_8,  Key_9,  Key_A,  Key_B,  ______, ______, Key_F9, Key_F10,Key_F11,Key_F12,______,
+    // Key_De, Key_4,  Key_5,  Key_6,  Key_7,  ______, ______, Key_F5, Key_F6, Key_F7, Key_F8, ______,
+    // ______, Key_0,  Key_1,  Key_2,  Key_3,  ______, ______, Key_F1, Key_F2, Key_F3, Key_F4, ______,
+    // ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______
+
+    // might be easier to learn something like this, where number keys are 10+n
+    Key_A,  Key_B,  Key_C,  Key_D,  Key_E,  Key_F,  ______, ______, ______, ______, ______, ______,
+    Key_Bp, ______, Key_7,  Key_8,  Key_9,  ______, ______, Key_F9, Key_F10,Key_F11,Key_F12,______,
+    Key_De, ______, Key_4,  Key_5,  Key_6,  Key_X,  ______, Key_F5, Key_F6, Key_F7, Key_F8, ______,
     ______, Key_0,  Key_1,  Key_2,  Key_3,  ______, ______, Key_F1, Key_F2, Key_F3, Key_F4, ______,
     ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______
   ),
@@ -243,71 +262,6 @@ COLORMAPS(
     [8] = COLORMAP (BLACK,  BLACK, BLACK, BLACK)  
 )
 
-namespace kaleidoscope {
-namespace plugin {
-
-
-// When activated, this plugin will suppress any `Shift` key (including modifier
-// combos with `Shift`) before it's added to the HID report.
-class Shifter : public Plugin {
-
- public:
-  // EventHandlerResult onAddToReport(Key key) {
-  //   if (active_)
-  //     key.setFlags(SHIFT_HELD);
-  //   return EventHandlerResult::OK;
-  // }
-
-  EventHandlerResult onKeyEvent(KeyEvent &event) {
-    if ((event.state & INJECTED) != 0)
-      return EventHandlerResult::OK;
-
-    if (active) {
-      if ((keyToggledOn(event.state) && event.key.isKeyboardShift()) || keyToggledOff(event.state) && !event.key.isKeyboardShift() && !shifted) {
-        KeyEvent new_event = KeyEvent(KeyAddr::none(), INJECTED | IS_PRESSED, Key_LeftShift);
-        Runtime.handleKeyEvent(new_event);
-        shifted = true;
-      } else if ((keyToggledOn(event.state) && !event.key.isKeyboardShift()) || keyToggledOff(event.state) && !event.key.isKeyboardShift() && shifted) {
-        KeyEvent new_event = KeyEvent(KeyAddr::none(), INJECTED | WAS_PRESSED, Key_LeftShift);
-        Runtime.handleKeyEvent(new_event);
-        shifted = false;
-      }
-    }
-    if (!active && shifted)  {
-      KeyEvent new_event = KeyEvent(KeyAddr::none(), INJECTED | WAS_PRESSED, Key_LeftShift);
-      Runtime.handleKeyEvent(new_event);
-      shifted = false;
-    }
-    return EventHandlerResult::OK;
-  }
-
-  void enable(KeyEvent &event) {
-    active = true;
-    // event.key.setKeyCode(Key_LS.getKeyCode());
-    // event.key.setFlags(0);
-    // event.state |= INJECTED;
-    // shifted = true;
-    Layer.move(SSHIFT);
-  }
-
-  void disable(KeyEvent &event) {
-    active = false;
-    // event.key.setKeyCode(Key_LS.getKeyCode());
-    // event.key.setFlags(0);
-    // event.state |= INJECTED;
-    // shifted = false;
-    Layer.move(BASE);
-  }
-
- private:
-  bool active {false};
-  bool shifted {false};
-};
-}  // namespace plugin
-}  // namespace kaleidoscope
-
-kaleidoscope::plugin::Shifter Shifter;
-
 // clang-format on
 
 KALEIDOSCOPE_INIT_PLUGINS(
@@ -334,6 +288,8 @@ KALEIDOSCOPE_INIT_PLUGINS(
 
   // The macros plugin adds support for macros
   Macros,
+
+  SonicThemes,
 
   // The MouseKeys plugin lets you add keys to your keymap which move the mouse.
   MouseKeys,
@@ -540,7 +496,8 @@ const macro_t *macroAction(uint8_t macro_id, KeyEvent &event) {
     }
   } break;
   case MACRO_BOOTLOADER: {
-    NVIC_SystemReset();
+    // NVIC_SystemReset();
+    SonicThemes.nextTheme();
   } break;
   case MACRO_VERSION_INFO:
     versionInfoMacro(event.state);
@@ -617,6 +574,8 @@ void setup() {
   //   {440, 880,  440,  880}, 
   //   {50,  50,   200,  50}
   // );
+
+  Shifter.layer = SSHIFT;
 
   //kaleidoscope::Runtime.device().ble().selectDevice(1);
   //kaleidoscope::Runtime.device().setHostConnectionMode(MODE_BLE);
